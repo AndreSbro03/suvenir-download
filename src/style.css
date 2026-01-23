@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'songbird';
+    src: url('../assets/fonts/TANSONGBIRD.ttf');
+}
+
+body {
+  background-color: #181818;
+  color: #FFFFFFFF;
+}
+
+canvas {
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.title {
+  font-size: 70px;
+  font-family: songbird;
+  letter-spacing: 5px;
+}
+
+.download-box {
+  background-color: #00000000;
+  width: 750px;
+  height: 400px;
+  position: absolute;
+  top: 200px;
+  right: 100px;
+}
+
+.download-button {
+  height: 80px;
+  padding: 10px 20px 0px 0px;
+}
