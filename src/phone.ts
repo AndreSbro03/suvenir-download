@@ -1,12 +1,15 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+import "./phases.ts";
+
 export class Phone {
   constructor() {
     this.path = "../assets/iphone_12_pro.glb";
     this.initScale = 0.4;
     this.initYRot = 0.6;
     this.initXPos = 22;
+    this.leaveInitXPos = -1 * this.initXPos;
     this.radV = 0.001;
     this.dir = 1;
   }
@@ -79,14 +82,43 @@ export class Phone {
     this.model.rotation.y += this.radV * this.dir;
   }
 
-  move(time) {
-    
-    /* Spin until half of the height*/
-    if(time < 0.5) {
-      this.model.position.x = this.initXPos + THREE.MathUtils.lerp(0, this.initXPos * -2.5, time * 2);
-    } else {
-      const scale = THREE.MathUtils.lerp(this.initScale, 1, (time - 0.5) * 2);
-      this.model.scale.set(scale, scale, scale);
+  moveToLeft(t) {
+    this.model.position.x = this.initXPos + THREE.MathUtils.lerp(0, this.initXPos * -2.5, t);
+  }
+
+  zoom(t) {
+    const scale = THREE.MathUtils.lerp(this.initScale, 1, t);
+    this.model.scale.set(scale, scale, scale);
+  }
+
+  moveOut(t) {
+    this.model.position.x = this.leaveInitXPos + THREE.MathUtils.lerp(0, -30, t);
+    const scale = THREE.MathUtils.lerp(1, this.initScale, t);
+    this.model.scale.set(scale, scale, scale);
+  }
+
+  move(phase, time) {
+    console.log(phase, time);
+    switch (phase) {
+      case 0:
+        this.moveToLeft(time); 
+      break;
+
+      case 1:
+        this.zoom(time);
+      break; 
+
+      case 2:
+        this.leaveInitXPos = this.model.position.x;
+      break;
+
+      case 3:
+        this.moveOut(time);
+      break;
+
+      default:
+        break;
     }
+
   }
 }

@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'songbird';
+  font-family: 'songbird';
     src: url('../assets/fonts/TANSONGBIRD.ttf');
 }
 
@@ -11,7 +11,7 @@
 }
 
 body {
-  height: 300vh;
+  height: 400vh;
   background-color: #181818;
   color: #ffffff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -57,8 +57,8 @@ body {
   margin: 0px clamp(0vw, 49vw, 49vw) 0px clamp(0vw, 1vw, 1vw);
   padding: 3rem;
 
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(12px);
+  /*background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);*/
 
   display: flex;
   flex-direction: column;
@@ -112,4 +112,6 @@ canvas#bg {
 
 #delete-info {
   display: none;
+  width: 50vw;
+  height: 40vh;
 }

@@ -16,6 +16,8 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
 });
 
+const delete_info = document.querySelector("#delete-info");
+
 const width = window.innerWidth;
 const height = window.innerHeight;
 renderer.setSize(width, height);
@@ -46,7 +48,6 @@ async function init() {
 
 }
 
-/* ---------- Animate ---------- */
 async function main() {
   await init();
 
@@ -61,16 +62,27 @@ async function main() {
     renderer.render(scene, camera);
   }
 
-  function getScrollProgress(){
+  function getCorrPos() {
+const halfWindowHeight = window.innerHeight;
+    return window.scrollY + halfWindowHeight;
+  }
+
+  function getPhase() {
     const scrollTop = window.scrollY;
-    const maxScroll = document.body.scrollHeight - window.innerHeight;
-    return THREE.MathUtils.clamp(scrollTop / maxScroll, 0, 1);
+    const phase = Math.floor(scrollTop / 500);
+    return {phase, t: THREE.MathUtils.clamp((scrollTop % 500) / 500, 0, 1)};
   }
 
   // Scroll interaction
   function move() {
-    const t = getScrollProgress();  
-    phone.move(t);
+    const {phase, t} = getPhase(); 
+    phone.move(phase, t);
+    if(phase == 1 && delete_info.style.display !== "block") {
+      delete_info.style.display = "block";
+      delete_info.style.position = "absolute";
+      delete_info.style.left = '50vw';
+      delete_info.style.top = getCorrPos()+'px';   
+    }
   }
 
   document.body.onscroll = move;
