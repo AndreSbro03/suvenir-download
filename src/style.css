@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'songbird';
-    src: url('../assets/fonts/TANSONGBIRD.ttf');
+  src: url('../assets/fonts/TANSONGBIRD.ttf');
 }
 
 /* RESET BASE */
@@ -68,6 +68,7 @@ body {
 }
 
 .title {
+  width: 100%;
   font-family: songbird;
   font-size: clamp(2rem, 5vw, 4rem);
   letter-spacing: 4px;
@@ -110,8 +111,71 @@ canvas#bg {
   z-index: -1;
 }
 
-#delete-info {
+.info {
   display: none;
-  width: 50vw;
-  height: 40vh;
+  flex: 0 0 50%;
+  height: auto;
+}
+
+#saved-space {
+  display: none;
+  align-items: center;
+}
+
+#saved-space-box {
+  display: flex; 
+  flex: 0 0 40%;
+  background: #673AB7;
+  background: linear-gradient(90deg, rgba(103, 58, 183, 1) 0%, rgba(255, 170, 0, 1) 100%);
+  border-radius: 50px;
+  height: 30vh;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  min-width: 0;
+}
+
+#byte-text {
+  font-size: clamp(3rem, 8vw, 15vh);
+  white-space: nowrap;
+}
+
+.padding {
+  display: flex;
+  padding-inline: 5vw;
+  box-sizing: border-box;
+}
+
+.spacing {
+  display: flex;
+  flex-direction: column; /* Gli elementi andranno uno sotto l'altro */
+  gap: 20px;              /* Spazio tra ogni elemento */
+}
+
+/* Se vuoi che gli elementi stiano sulla stessa riga: */
+.spacing-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); /* easing Apple */
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,17 +1,20 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
-import "./phases.ts";
+import { Phase } from '/src/phases.ts';
 
 export class Phone {
   constructor() {
     this.path = "../assets/iphone_12_pro.glb";
-    this.initScale = 0.4;
-    this.initYRot = 0.6;
+    this.initScale = 0.45;
+    this.initYRot = -0.6;
+    this.initZRot = -0.1;
     this.initXPos = 22;
+    this.initYPos = -22;
     this.leaveInitXPos = -1 * this.initXPos;
     this.radV = 0.001;
     this.dir = 1;
+    this.anim = true;
+    this.modelRotationWhenMoved = 0;
   }
 
   async init() {
@@ -20,9 +23,8 @@ export class Phone {
     const scale = this.initScale;
     this.model = glb.scene;
     this.model.scale.set(scale, scale, scale);
-    this.model.position.set(this.initXPos, -20, 0);
-    this.model.rotation.y = this.initYRot;
-    this.model.rotation.z = 0.1;
+    this.model.position.set(this.initXPos, this.initYPos, 0);
+    this.model.rotation.set(0, this.initYRot, this.initZRot);
     this.screenObj = this.findScreenObj()
   }
 
@@ -75,15 +77,25 @@ export class Phone {
   }
 
   animate() {
-    // Optional rotation
-    if(this.model.rotation.y > 0.8) this.dir = -1;
-    else if(this.model.rotation.y < -0.4) this.dir = +1;
+    if(this.anim) {
+      if(this.model.rotation.y > 0.4) this.dir = -1;
+      else if(this.model.rotation.y < -0.4) this.dir = +1;
 
-    this.model.rotation.y += this.radV * this.dir;
+      this.model.rotation.y += this.radV * this.dir;
+
+    }
+  }
+
+  moveToMiddle(t) {
+    this.model.position.x = THREE.MathUtils.lerp(this.initXPos, 0, t);
+    this.model.rotation.z = THREE.MathUtils.lerp(this.initZRot, 0, t);
+    this.model.rotation.y = THREE.MathUtils.lerp(this.modelRotationWhenMoved, 0, t);
   }
 
   moveToLeft(t) {
-    this.model.position.x = this.initXPos + THREE.MathUtils.lerp(0, this.initXPos * -2.5, t);
+    this.model.position.x = THREE.MathUtils.lerp(0, this.initXPos * -1, t);
+    this.model.rotation.z = THREE.MathUtils.lerp(0, -1 * this.initZRot, t);
+
   }
 
   zoom(t) {
@@ -92,27 +104,30 @@ export class Phone {
   }
 
   moveOut(t) {
-    this.model.position.x = this.leaveInitXPos + THREE.MathUtils.lerp(0, -30, t);
+    this.model.position.x = this.leaveInitXPos + THREE.MathUtils.lerp(0, -50, t);
     const scale = THREE.MathUtils.lerp(1, this.initScale, t);
     this.model.scale.set(scale, scale, scale);
   }
 
   move(phase, time) {
-    console.log(phase, time);
+    // console.log(phase, time);
+    this.anim = false;
+    if(!this.modelRotationWhenMoved) this.modelRotationWhenMoved = this.model.rotation.y;
     switch (phase) {
-      case 0:
-        this.moveToLeft(time); 
+      case Phase.MAIN:
+        this.moveToMiddle(time); 
       break;
 
-      case 1:
+      case Phase.MOVELEFT:
+        this.moveToLeft(time);
+      break;
+
+      case Phase.ZOOM:
         this.zoom(time);
+      this.leaveInitXPos = this.model.position.x;
       break; 
 
-      case 2:
-        this.leaveInitXPos = this.model.position.x;
-      break;
-
-      case 3:
+      case Phase.PHONEOUT:
         this.moveOut(time);
       break;
 

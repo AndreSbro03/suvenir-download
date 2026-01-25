@@ -1,9 +1,11 @@
 
-import './style.css'
+import '/src/style.css';
+import { Phase, Phases } from '/src/phases.ts';
 
 import * as THREE from 'three';
 
 import { Phone } from './phone.ts';
+import { SavedSpace } from './savedSpace.ts';
 import { EXRLoader } from 'three/addons/loaders/EXRLoader.js';
 
 const scene = new THREE.Scene();
@@ -16,7 +18,9 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
 });
 
-const delete_info = document.querySelector("#delete-info");
+let delete_info;
+let saved_space;
+let app_info = document.getElementById("app-info");
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -49,40 +53,48 @@ async function init() {
 }
 
 async function main() {
+
+  const phases = new Phases();
+  phases.init();
   await init();
 
   let phone = new Phone();
   await phone.init();
   phone.addToScene(scene);
 
+  let saved_space = new SavedSpace(phases);
 
   function animate() {
     requestAnimationFrame(animate);
     phone.animate();
+    saved_space.animate();
     renderer.render(scene, camera);
-  }
-
-  function getCorrPos() {
-const halfWindowHeight = window.innerHeight;
-    return window.scrollY + halfWindowHeight;
-  }
-
-  function getPhase() {
-    const scrollTop = window.scrollY;
-    const phase = Math.floor(scrollTop / 500);
-    return {phase, t: THREE.MathUtils.clamp((scrollTop % 500) / 500, 0, 1)};
   }
 
   // Scroll interaction
   function move() {
-    const {phase, t} = getPhase(); 
+    const {phase, t} = phases.getPhase();
+    console.log(phase, t);
     phone.move(phase, t);
-    if(phase == 1 && delete_info.style.display !== "block") {
-      delete_info.style.display = "block";
+    saved_space.move(phase, t);
+
+
+    if(phase == Phase.DELETEINFO && !delete_info) {
+      delete_info = document.querySelector("#delete-info");
+      delete_info.style.display = "flex";
       delete_info.style.position = "absolute";
-      delete_info.style.left = '50vw';
-      delete_info.style.top = getCorrPos()+'px';   
+      delete_info.style.top = phases.getCorrPos()+'px';   
+      delete_info.style.left = "50vw";
+      delete_info.classList.add("show");
     }
+
+    if(phase == Phase.SCROLL){
+      app_info.style.display = "flex";
+      app_info.style.position = "absolute";
+      app_info.style.top = phases.getCorrPos()+"px";
+      app_info.classList.add("show");
+    }
+
   }
 
   document.body.onscroll = move;
