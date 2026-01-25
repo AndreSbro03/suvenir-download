@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -12,7 +11,7 @@
     <!-- MAIN CONTENT -->
     <main class="home">
       <section class="download-box">
-        <h1 class="title">Suvenir</h1>
+        <h1 class="title big">Suvenir</h1>
         <p>
         Dive into your gallery to relive moments, organize your memories, and declutter by removing the photos and videos that no longer serve you.
         Designed with privacy in mind, Suvenir operates entirely on your device.
@@ -28,37 +27,58 @@
           </a>
         </div>
       </section>
-    </main>
-
-    <div class="padding">
-      <div class="center">
-        <div class="info fade-up" id="app-info"> 
-          <h1 class="title">Relieve your memories!</h1>
+      <div class="padding">
+        <div class="center">
+          <div class="info fade-up" id="app-info"> 
+            <h1 class="title big">Relieve your memories!</h1>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="info fade-up" id="delete-info">
-      <h1 class="title">Delete pictures you don't need</h1>
-    </div>
+      <div class="info fade-up" id="delete-info">
+        <h1 class="title big">Delete pictures you don't need</h1>
+      </div>
 
 
-    <div class="padding">
-      <div class="spacing-row">
-        <div id="saved-space">
-          <div class="info fade-up" id="saved-space-info">
-            <h1 class="title">And save space on your device</h1>
-          </div>
-          <div id="saved-space-box">
-            <h2 id="byte-text">0 B</h2>
+      <div class="padding">
+        <div class="spacing-row">
+          <div id="saved-space">
+            <div class="info fade-up" id="saved-space-info">
+              <h1 class="title big">And save space on your device</h1>
+            </div>
+            <div id="saved-space-box">
+              <h2 id="byte-text">0 B</h2>
+            </div>
           </div>
         </div>
+      </div>
+    </main>
+
+
+    <div class="green" id="end-box">
+        <img src="/assets/logo.png" alt="suvenir" class="logo">
+      <div class="padding column">
+        <h2 class="title medium">Download it now for free!</h1>
+   <div class="store-buttons">
+          <a href="https://play.google.com/store/apps/details?id=com.suvenir">
+            <img class="download-button" src="./assets/get_it_on_gp_en.svg" alt="Get it on Google Play">
+          </a>
+
+          <a href="https://apps.apple.com/us/app/suvenir/id6755966106">
+            <img class="download-button" src="./assets/Download-on-the-App-Store/US/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" alt="Download on the App Store">
+          </a>
+        </div>
+
       </div>
     </div>
 
     <!-- BACKGROUND CANVAS -->
     <canvas id="bg"></canvas>
+    <!--
 
-    <script type="module" src="/src/main.ts"></script>
+      <script type="module" src="/src/main.ts"></script>
+      -->
+
+      <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

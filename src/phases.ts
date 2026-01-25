@@ -8,7 +8,6 @@ export enum Phase {
   DELETEINFO,
   PHONEOUT,
   SPACE,
-  SPACEANIMATION,
   SIZE
 }
 
@@ -20,7 +19,7 @@ export class Phases {
   }
 
   init() {
-    const body = document.body;
+    const body = document.querySelector(".home");
     body.style.height = (this.pageSize * this.numOfPages + window.innerHeight) + "px";
   }
 

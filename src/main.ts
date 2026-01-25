@@ -95,6 +95,11 @@ async function main() {
       app_info.classList.add("show");
     }
 
+    if(phase == Phase.DOWNLOAD) {
+      const endbox = document.getElementById("end-box");
+      endbox.style.display = "flex";
+    }
+
   }
 
   document.body.onscroll = move;
