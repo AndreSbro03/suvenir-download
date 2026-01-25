@@ -15,6 +15,11 @@ export class Phone {
     this.dir = 1;
     this.anim = true;
     this.modelRotationWhenMoved = 0;
+    this.texturesPaths = [];
+    const frames = 60;
+    for(let i = 1; i <= 60; i++){
+      this.texturesPaths.push(this.getFramePath(i));
+    }
   }
 
   async init() {
@@ -25,51 +30,52 @@ export class Phone {
     this.model.scale.set(scale, scale, scale);
     this.model.position.set(this.initXPos, this.initYPos, 0);
     this.model.rotation.set(0, this.initYRot, this.initZRot);
-    this.screenObj = this.findScreenObj()
+    this.screenMat = this.findScreenMat();
+    this.screenTextures = {};
+    await this.preloadScreens(this.texturesPaths);
+    this.generateScreenMaterial(this.getFramePath(1));
   }
 
-  findScreenObj() {
-    let screenObj;
-    // Traverse meshes
-    for (const child of this.model.children) {
-      child.traverse(async (mesh) => {
-        if (!mesh.isMesh) return;
-        if (mesh.name === "Screen_Wallpaper_0") {
-          screenObj = mesh;
-          mesh.material = await this.generateScreenMaterial("../assets/suvenir_screen.jpg");
-        }
-      });
-    }
-    return screenObj;
+  async preloadScreens(paths) {
+    const loader = new THREE.TextureLoader();
+    await Promise.all(
+      paths.map(async (p) => {
+        const tex = await loader.loadAsync(p);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        this.screenTextures[p] = tex;
+      })
+    );
   }
 
-  addGlassOnScreen() {
-    // Glass layer
-    const glass = mesh.clone();
-    glass.material = new THREE.MeshPhysicalMaterial({
-      transmission: 1,
-      thickness: 0.02,
-      roughness: 0.05,
-      metalness: 0,
-      envMapIntensity: 0.3,
-      transparent: true,
+
+  findScreenMat() {
+    let material;
+    this.model.traverse((child) => {
+      if (!child.isMesh) return;
+      const materials = Array.isArray(child.material)
+        ? child.material
+        : [child.material];
+        materials.forEach((mat) => {
+          if (!mat) return;
+          if (mat.name.toLowerCase() === "wallpaper") {
+            console.log("Found screen material");
+            mat.emissive = new THREE.Color(0xffffff);
+            mat.emissiveIntensity = 0.3;
+            material = mat;
+            return;
+          }
+        });
     });
-    glass.position.z += 0.001;
-    mesh.parent.add(glass);
-
+    return material;
   }
 
-  async generateScreenMaterial(path:String){
-    const texture = await new THREE.TextureLoader().loadAsync(path);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return new THREE.MeshStandardMaterial({
-      map: texture,
-      emissive: new THREE.Color(0xffffff),
-      emissiveMap: texture,
-      emissiveIntensity: 0.1,
-      roughness: 0.6,
-      metalness: 0.0,
-    });
+  async generateScreenMaterial(i){
+    const tex = this.screenTextures[i];
+    if (!tex) return;
+
+    this.screenMat.map = tex;
+    this.screenMat.emissiveMap = tex;
+    this.screenMat.needsUpdate = true; 
   }
 
   addToScene(scene) {
@@ -109,14 +115,30 @@ export class Phone {
     this.model.scale.set(scale, scale, scale);
   }
 
-  move(phase, time) {
+  getFramePath(frame:int){
+    return "/assets/frames/ezgif-frame-0" + frame.toString().padStart(2, '0') + ".jpg";
+  }
+
+  async scroll(t){
+    const numberOfFrame = 60;
+    const frame = Math.ceil(THREE.MathUtils.lerp(1, numberOfFrame, t * 0.5));
+    await this.generateScreenMaterial(this.getFramePath(frame));
+
+  }
+
+  async move(phase, time) {
     // console.log(phase, time);
     this.anim = false;
     if(!this.modelRotationWhenMoved) this.modelRotationWhenMoved = this.model.rotation.y;
     switch (phase) {
       case Phase.MAIN:
-        this.moveToMiddle(time); 
+        await this.generateScreenMaterial(this.getFramePath(1));
+      this.moveToMiddle(time); 
       break;
+
+      case Phase.SCROLL:
+        this.scroll(time);
+      break
 
       case Phase.MOVELEFT:
         this.moveToLeft(time);
