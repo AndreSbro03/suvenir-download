@@ -41,6 +41,10 @@ export class Phases {
     return {phase, t: THREE.MathUtils.clamp((scrollTop % this.pageSize) / this.pageSize, 0, 1)};
   }
 
+  isMobile() {
+    return window.innerWidth < 768;
+  }   
+
 }
 
 

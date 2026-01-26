@@ -9,13 +9,14 @@ import { SavedSpace } from './savedSpace.ts';
 import { EXRLoader } from 'three/addons/loaders/EXRLoader.js';
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x181818);
+scene.background = null;
 
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 500);
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
   antialias: true,
+  alpha: true,
 });
 
 let delete_info;
@@ -94,12 +95,6 @@ async function main() {
       app_info.style.top = phases.getCorrPos()+"px";
       app_info.classList.add("show");
     }
-
-    if(phase == Phase.DOWNLOAD) {
-      const endbox = document.getElementById("end-box");
-      endbox.style.display = "flex";
-    }
-
   }
 
   document.body.onscroll = move;
