@@ -1,4 +1,4 @@
-import { Phase, Phases } from '/src/phases.ts';
+import { Phases } from '/src/phases.ts';
 
 export class SavedSpace {
 
@@ -12,6 +12,10 @@ export class SavedSpace {
     this.stopCounter = 2.3 * 1_000_000_000;
     this.easing = 0.01;
     this.phases = phases;
+    const parent = document.getElementById("saved-space");
+    this.text = document.getElementById("saved-space-info");
+    this.obj = document.getElementById("saved-space-box");
+    this.containerText = document.getElementById("byte-text");
   }
 
   prettyString(value) {
@@ -43,17 +47,7 @@ export class SavedSpace {
   }
 
   move(phase, time){
-    if(phase == Phase.PHONEOUT && !this.obj) {
-      const parent = document.getElementById("saved-space");
-      // parent.style.top = this.phases.getPagePosition(Phase.SPACE)+"px";
-
-      this.text = document.getElementById("saved-space-info");
-      this.obj = document.getElementById("saved-space-box");
-      this.containerText = document.getElementById("byte-text");
-
-      this.text.style.display = "flex";
-    }
-    if(phase == Phase.SPACE) {
+    if(phase === "saved-space") {
       this.startAnimation = true;
     }
   }

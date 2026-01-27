@@ -1,6 +1,6 @@
 
 import '/src/style.css';
-import { Phase, Phases } from '/src/phases.ts';
+import { Phases } from '/src/phases.ts';
 
 import * as THREE from 'three';
 
@@ -56,10 +56,9 @@ async function init() {
 async function main() {
 
   const phases = new Phases();
-  phases.init();
   await init();
 
-  let phone = new Phone();
+  let phone = new Phone(phases.isMobile());
   await phone.init();
   phone.addToScene(scene);
 
@@ -67,27 +66,27 @@ async function main() {
 
   function animate() {
     requestAnimationFrame(animate);
-    phone.animate();
+    // phone.animate();
     saved_space.animate();
     renderer.render(scene, camera);
   }
 
   // Scroll interaction
   function move() {
-    const {phase, t} = phases.getPhase();
-    console.log(phase, t);
-    phone.move(phase, t);
-    saved_space.move(phase, t);
+    const {page, t} = phases.getPhase();
+    console.log(page, t);
+    phone.move(page, t);
+    saved_space.move(page, t);
 
 
-    if(phase == Phase.DELETEINFO && !delete_info) {
+    if(page === "delete-info" && !delete_info) {
       delete_info = document.querySelector("#delete-info");
       delete_info.style.display = "flex";
       delete_info.style.top = phases.getCorrPos()+'px';   
       delete_info.classList.add("show");
     }
 
-    if(phase == Phase.STAY){
+    if(page === "app-info"){
       app_info.style.display = "flex";
       app_info.style.top = phases.getCorrPos()+"px";
       app_info.classList.add("show");

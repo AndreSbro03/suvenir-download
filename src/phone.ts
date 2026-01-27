@@ -1,14 +1,18 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { Phase } from '/src/phases.ts';
 
 export class Phone {
-  constructor() {
+  constructor(mobileView:bool) {
     this.path = "../assets/iphone_12_pro.glb";
     this.initScale = 0.45;
     this.initYRot = -0.6;
     this.initZRot = -0.1;
     this.initXPos = 22;
+    if(mobileView){
+      this.initYRot = 0;
+      this.initZRot = 0;
+      this.initXPos = 0;
+    } 
     this.initYPos = -22;
     this.leaveInitXPos = -1 * this.initXPos;
     this.radV = 0.001;
@@ -127,29 +131,28 @@ export class Phone {
   }
 
   async move(phase, time) {
-    // console.log(phase, time);
     this.anim = false;
     if(!this.modelRotationWhenMoved) this.modelRotationWhenMoved = this.model.rotation.y;
     switch (phase) {
-      case Phase.MAIN:
+      case "main":
         await this.generateScreenMaterial(this.getFramePath(1));
-      this.moveToMiddle(time); 
+        this.moveToMiddle(time); 
       break;
 
-      case Phase.SCROLL:
+      case "scroll":
         this.scroll(time);
       break
 
-      case Phase.MOVELEFT:
+      case "move-left":
         this.moveToLeft(time);
       break;
 
-      case Phase.ZOOM:
+      case "zoom":
         this.zoom(time);
       this.leaveInitXPos = this.model.position.x;
       break; 
 
-      case Phase.PHONEOUT:
+      case "phone-out":
         this.moveOut(time);
       break;
 

@@ -1,42 +1,39 @@
 import * as THREE from 'three';
 
-export enum Phase {
-  MAIN = 0,
-  SCROLL,
-  MOVELEFT,
-  STAY,
-  ZOOM,
-  DELETEINFO,
-  PHONEOUT,
-  SPACE,
-  SIZE
-}
-
 export class Phases {
 
   constructor(){
     this.pageSize = window.innerHeight *0.8;
-    this.numOfPages = Phase.SIZE;
     this.debugView = false;
+    this.pages = [];
+    this.init();
   }
 
   init() {
     const pages = document.getElementsByClassName("page");
-    if(pages.length !== Phase.SIZE) throw "The number of pages doesn't match the number of phases";
-    ;
-    console.log(pages);
+    
     for(let i = 0; i < pages.length; i++){
       const page = pages[i];
+
+      if(this.isMobile() && page.classList.contains("transition")) {
+        page.style.display = "none";
+        continue;
+      }
+
+      this.pages.push(page.id);
       page.style.height = this.pageSize + "px";
       if(this.debugView){
       if(i % 2 == 0) page.style.backgroundColor = "#AA0000";
       else page.style.background = "#0000AA";
       }
     }
+
+    console.log(this.pages);
     /* If the device is in mobile view change the canvas from background to static */
     if(this.isMobile()) {
       const back = document.getElementById("bg");
-      // back.style.zIndex = "";
+      back.style.zIndex = "auto";
+      back.style.position = "relative";
     }
     
   }
@@ -56,7 +53,14 @@ export class Phases {
   getPhase() {
     const scrollTop = window.scrollY;
     const phase = Math.floor(scrollTop / this.pageSize);
-    return {phase, t: THREE.MathUtils.clamp((scrollTop % this.pageSize) / this.pageSize, 0, 1)};
+    const page = this.pages[phase];
+    console.log({
+      "page" : page,
+      "phase" : phase,
+      "scrollTop" : scrollTop,
+      "pageSize" : this.pageSize,
+    });
+    return {page, t: THREE.MathUtils.clamp((scrollTop % this.pageSize) / this.pageSize, 0, 1)};
   }
 
   isMobile() {
