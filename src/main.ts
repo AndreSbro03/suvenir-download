@@ -83,21 +83,19 @@ async function main() {
     if(phase == Phase.DELETEINFO && !delete_info) {
       delete_info = document.querySelector("#delete-info");
       delete_info.style.display = "flex";
-      delete_info.style.position = "absolute";
       delete_info.style.top = phases.getCorrPos()+'px';   
-      delete_info.style.left = "50vw";
       delete_info.classList.add("show");
     }
 
-    if(phase == Phase.SCROLL){
+    if(phase == Phase.STAY){
       app_info.style.display = "flex";
-      app_info.style.position = "absolute";
       app_info.style.top = phases.getCorrPos()+"px";
       app_info.classList.add("show");
     }
   }
 
   document.body.onscroll = move;
+  move();
   animate();
 }
 

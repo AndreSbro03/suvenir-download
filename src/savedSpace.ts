@@ -45,11 +45,7 @@ export class SavedSpace {
   move(phase, time){
     if(phase == Phase.PHONEOUT && !this.obj) {
       const parent = document.getElementById("saved-space");
-      parent.style.display = "flex";
-      parent.style.position = "absolute";
-      parent.style.top = this.phases.getPagePosition(Phase.SPACE)+"px";
-      parent.style.width = "100%";
-      parent.style.display = "flex";
+      // parent.style.top = this.phases.getPagePosition(Phase.SPACE)+"px";
 
       this.text = document.getElementById("saved-space-info");
       this.obj = document.getElementById("saved-space-box");
