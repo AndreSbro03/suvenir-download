@@ -19,7 +19,9 @@
 /* STORE BUTTONS */
 .store-buttons {
   display: flex;
-  flex-direction: column; 
+  flex-shrink: 1;
+  flex-direction: row; 
+  flex-wrap: wrap;
   gap: 20px;
   margin-top: 20px;
 }
@@ -40,8 +42,3 @@ a:active {
   outline: none;
 }
 
-@media (min-width: 768px) {
-  .store-buttons {
-    flex-direction: row;
-  }
-}

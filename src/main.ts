@@ -1,5 +1,5 @@
 
-import '/src/style.css';
+import '/src/css/style.css';
 import { Phases } from '/src/phases.ts';
 
 import * as THREE from 'three';

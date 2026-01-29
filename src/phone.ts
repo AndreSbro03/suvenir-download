@@ -22,7 +22,7 @@ export class Phone {
     } 
     this.leaveInitXPos = -1 * this.initXPos;
     this.dir = 1;
-    this.anim = true;
+    this.anim = false;
     this.modelRotationWhenMoved = 0;
     this.texturesPaths = [];
     this.frames = 255;
@@ -149,8 +149,8 @@ export class Phone {
     if(!this.modelRotationWhenMoved) this.modelRotationWhenMoved = this.model.rotation.y;
     switch (phase) {
       case "main":
-        this.anim = true;
-        if(!this.mobileView) this.scrolling = true;
+        // this.anim = true;
+        // if(!this.mobileView) this.scrolling = true;
         // await this.generateScreenMaterial(this.getFramePath(1));
       break;
 
@@ -160,7 +160,7 @@ export class Phone {
       break;
 
       case "move-left":
-        this.scrolling = false;
+        // this.scrolling = false;
         this.moveToLeft(time);
       break;
 
