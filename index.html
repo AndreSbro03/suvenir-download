@@ -8,21 +8,21 @@
     <link rel="stylesheet" href="/src/css/developer.css"> 
     <link rel="stylesheet" href="/src/css/main.css">
     <link rel="stylesheet" href="/src/css/app-bar.css">
+    <link rel="stylesheet" href="/src/css/pages.css">
   </head>
   <body>
 
     <div class="app-bar">
-      <h2 class="title small">Suvenir</h2>
+      <h3 class="title">Suvenir</h2>
     </div>
 
     <!-- MAIN CONTENT -->
     <div class="page" id="main" style="align-items: start;">
 
       <div class="main-box">
-        <h1 class="title medium">Scroll your gallery</h1>
-        <p class="medium-width">
-        Dive into your gallery to relive moments, organize your memories, and declutter by removing the photos and videos that no longer serve you.
-        Designed with privacy in mind, Suvenir operates entirely on your device.
+        <h2 class="title">Scroll your gallery</h1>
+        <p class="medium-width small-remove app-description"> 
+
         </p>
         <div class="store-buttons">
           <a href="https://play.google.com/store/apps/details?id=com.suvenir">
@@ -38,17 +38,21 @@
       <div class="phone-space" id="bg-par">
         <canvas id="bg"></canvas>
       </div>
+
+      <div class="main-box small-show">
+        <p class="app-description"></p>
+      </div>
     </div>
 
-    <div class="page transition" id="scroll"></div>
-
     <div class="page transition" id="move-left"></div>
+
+
     <div class="page" id="app-info">
       <div class="phone-space small-remove">
       </div>
       <div class="info-box">          
         <div class="info"> 
-          <h1 class="title big">Relieve your memories!</h1>
+          <h1 class="title">Relieve your memories!</h1>
         </div>
       </div>
     </div>
@@ -58,13 +62,11 @@
     <div class="page" id="delete-info">
       <div class="phone-space small-remove">
       </div>
+      <img src="/assets/logo.png" alt="suvenir" class="logo small-show">
       <div class="info-box">
         <div class="info"> 
-          <h1 class="title big">Delete pictures you don't need</h1>
+          <h1 class="title">Delete pictures you don't need</h1>
         </div>
-      </div>
-      <div id="back-img">
-        <img src="/assets/cloud.png" alt="">
       </div>
     </div>
 
@@ -72,13 +74,11 @@
     <div class="page transition" id="phone-out"></div>
 
     <div class="page" id="saved-space">
-      <div class="spacing-row">
-        <div class="info saved-space-item" id="saved-space-info">
-          <h1 class="title big">And save space on your device</h1>
-        </div>
-        <div class="saved-space-item" id="saved-space-box">
-          <h2 id="byte-text">0 B</h2>
-        </div>
+      <div class="info saved-space-item" id="saved-space-info">
+        <h1 class="title">And save space on your device</h1>
+      </div>
+      <div class="saved-space-item" id="saved-space-box">
+        <h2 id="byte-text">0 B</h2>
       </div>
     </div>
 
@@ -86,7 +86,7 @@
       <div class="dev-pic">
       </div>
       <div class="dev-body">
-        <h1 class="title small"> The developer</h1>
+        <h3 class="title"> The developer</h1>
         <p>Hi my name is here even if this function is run in a separate isolate the function getAssetListPaged need to
         communicate with I/O Flutter engine on the main isolate so the idea of running that funcion into
         a subTask and then waif for all the subTask to complete was a huge bottle neck because all the
@@ -109,7 +109,7 @@
       <div class="green end-content"> 
         <img src="/assets/logo.png" alt="suvenir" class="logo small-remove">
         <div class="column">
-          <h2 class="title medium">Download it now for free!</h1>
+          <h2 class="title">Download it now for free!</h1>
           <div class="store-buttons">
             <a href="https://play.google.com/store/apps/details?id=com.suvenir">
               <img class="download-button" src="./assets/get_it_on_gp_en.svg" alt="Get it on Google Play">
@@ -124,6 +124,7 @@
       </div>    
     </div>
 
+    <div id="cloud"></div>
 
     <!--
 

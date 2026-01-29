@@ -93,13 +93,11 @@ async function main() {
     if(page === "delete-info" && !delete_info) {
       delete_info = document.querySelector("#delete-info");
       delete_info.style.display = "flex";
-      delete_info.style.top = phases.getCorrPos()+'px';   
       delete_info.classList.add("show");
     }
 
     if(page === "app-info"){
       app_info.style.display = "flex";
-      app_info.style.top = phases.getCorrPos()+"px";
       app_info.classList.add("show");
     }
   }

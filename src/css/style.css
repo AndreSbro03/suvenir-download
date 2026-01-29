@@ -6,6 +6,8 @@
   --secodary-color: oklch(0.8 0.17 73);
   --third-color: oklch(0.65  0.15 120);
 
+  --h-pad: clamp(2rem, 8vw, 5rem);
+  --v-pad: clamp(1rem, 8vh, 4rem);
 }
 
 @font-face {
@@ -26,39 +28,16 @@ body {
   background-color: var(--background-color);
   color: #ffffff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
   max-width: 100%;
-  padding: 5vw;
+  overflow-x: hidden;
 }
-
-.phone-space {
-  min-height: 80vh;
-  background-color: var(--debug-color);
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 40%;
-}
-
-/* CANVAS BACKGROUND */
-canvas#bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-}
-
 
 .medium-width {
   width: 80%;
 }
 
 .info-box {
-  flex-grow: 0;
+  flex-grow: 1;
   flex-shrink: 0;
   flex-basis: 40%;
 }
@@ -79,19 +58,25 @@ canvas#bg {
 .title {
   width: 100%;
   font-family: songbird;
-  letter-spacing: 4px;
 }
 
-.big {
+h1 {
+  letter-spacing: 0.25rem;
   font-size: clamp(2rem, 4vw, 4rem);
 }
 
-.medium {
-   font-size: clamp(1.4rem, 3.4vw, 3rem);
+h2 {
+  letter-spacing: 0.25rem;
+  font-size: clamp(1.5rem, 3.4vw, 2.75rem);
 }
 
-.small {
-  font-size: clamp(1rem, 2.5vw, 2rem);
+h3 {
+  letter-spacing: 0.125rem;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+p {
+  font-size: clamp(1.5rem, 1.5vw, 2rem);
 }
 
 .info {
@@ -105,29 +90,24 @@ canvas#bg {
   }
 }
 
-#saved-space {
-  display: flex;
-  width: 100%;
-}
-
 .saved-space-item{
-  flex: 1 1 300px;
+  flex: 1 1 40%;
   min-width: 300px;
 }
 
 #saved-space-box {
+  flex-shrink: 0 1 40%;
   display: flex; 
   background: var(--primary-color);
   background: linear-gradient(90deg, var(--primary-color) 0%, rgba(255, 170, 0, 1) 100%);
   border-radius: 50px;
-  height: 30vh;
+  padding: 4rem 6rem;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 }
 
 #byte-text {
-  font-size: clamp(3rem, 8vw, 15vh);
+  font-size: clamp(4rem, 8vw, 15vh);
   white-space: nowrap;
 }
 
@@ -181,10 +161,9 @@ canvas#bg {
 
 
 .logo {
-  border-radius: 5vw;
-  
-  width: 20vw;
-  height: 20vw;
+  border-radius: 2rem;
+  width: 250px;
+  height:  250px;
   aspect-ratio: 1/1;
 }
 
@@ -213,25 +192,24 @@ canvas#bg {
   align-items: top;
 }
 
-#back-img {
+#cloud {
+  top: 0px;
   position: absolute;
-  display: flex;
-  background-image: none;
   z-index: -10;
-  background-color: transparent;
-  justify-content: center;
-  align-items: center;
-  height: 150vw;
   width: 150vw;
-  object-fit: cover;
-  overflow: hidden;
+  height: 150vw;
+
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: url("/assets/cloud.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  background-position: center;
 }
 
-#back-img img {
-  max-width: 100%;
+#cloud-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: block;
 }
 
@@ -268,9 +246,17 @@ canvas#bg {
   overflow: hidden;
 }
 
+.small-show {
+  display: none;
+}
+
 @media(max-width: 768px){
   .small-remove {
     display: none; 
+  }
+
+  .small-show {
+    display: flex;
   }
 
   .half {
@@ -279,5 +265,10 @@ canvas#bg {
 
   .masked-bg {
     -webkit-mask-position: center 15%;
+  }
+
+  .store-buttons { 
+    justify-content: center;
+    align-items: center;
   }
 }

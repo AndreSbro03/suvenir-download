@@ -6,8 +6,8 @@ export class Phone {
     this.path = "../assets/iphone_12_pro.glb";
     this.initScale = 0.45;
     this.initYRot = -0.6;
-    this.initZRot = -0.1;
-    this.initXPos = 22;
+    this.initZRot = 0;
+    this.initXPos = 25;
     this.initYPos = -22;
     this.rotLimits = {"l" : 0.1, "r": -0.5};
     this.radV = 0.001;
@@ -117,13 +117,13 @@ export class Phone {
   }
 
   moveToLeft(t) {
-    this.model.position.x = THREE.MathUtils.lerp(0, this.initXPos * -1, t);
-    this.model.rotation.z = THREE.MathUtils.lerp(0, -1 * this.initZRot, t);
-
+    this.model.position.x = THREE.MathUtils.lerp(this.initXPos, this.initXPos * -1, t);
+    this.model.rotation.y = THREE.MathUtils.lerp(this.initYRot, this.initYRot * -1, t);
   }
 
   zoom(t) {
     const scale = THREE.MathUtils.lerp(this.initScale, 1, t);
+    this.model.rotation.z = THREE.MathUtils.lerp(0, 0.6, t);
     this.model.scale.set(scale, scale, scale);
   }
 
@@ -138,8 +138,7 @@ export class Phone {
   }
 
   async scroll(t){
-    const numberOfFrame = 60;
-    const frame = Math.ceil(THREE.MathUtils.lerp(1, numberOfFrame, t * 0.5));
+    const frame = Math.ceil(THREE.MathUtils.lerp(1, this.frames, t * 0.5));
     await this.generateScreenMaterial(this.getFramePath(frame));
 
   }
