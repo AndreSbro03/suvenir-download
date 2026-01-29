@@ -1,3 +1,13 @@
+:root {
+  --background-color: oklch(0.21 0 130);
+  --debug-color: transparent;
+  --main-color: oklch(0.3 0 130);
+  --primary-color: oklch(0.47 0.19 295);
+  --secodary-color: oklch(0.8 0.17 73);
+  --third-color: oklch(0.65  0.15 120);
+
+}
+
 @font-face {
   font-family: 'songbird';
   src: url('../assets/fonts/TANSONGBIRD.ttf');
@@ -13,7 +23,7 @@
 body {
   display: flex;
   flex-direction: column;
-  background-color: #181818;
+  background-color: var(--background-color);
   color: #ffffff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
@@ -23,9 +33,35 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
+  flex-wrap: wrap;
+  max-width: 100%;
   padding: 5vw;
-  width: 100%;
+}
+
+.phone-space {
+  min-height: 80vh;
+  background-color: var(--debug-color);
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 40%;
+}
+
+/* CANVAS BACKGROUND */
+canvas#bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+
+.medium-width {
+  width: 80%;
+}
+
+.info-box {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 40%;
 }
 
 /* CONTENT BOX */
@@ -48,54 +84,15 @@ body {
 }
 
 .big {
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(2rem, 4vw, 4rem);
 }
 
 .medium {
-   font-size: clamp(1.4rem, 4vw, 3rem);
+   font-size: clamp(1.4rem, 3.4vw, 3rem);
 }
 
-.download-box p {
-  font-size: 18px;
-  line-height: 1.6;
-  max-width: 600px;
-}
-
-/* STORE BUTTONS */
-.store-buttons {
-  display: flex;
-  flex-direction: column; /* 👈 va a capo */
-  gap: 20px;
-  margin-top: 20px;
-}
-
-@media (min-width: 768px) {
-  .store-buttons {
-    flex-direction: row;
-  }
-}
-
-.download-button {
-  height: 60px;
-  display: block;
-}
-
-/* LINKS */
-a {
-  text-decoration: none;
-  outline: none;
-}
-
-a:focus,
-a:active {
-  outline: none;
-}
-
-/* CANVAS BACKGROUND */
-canvas#bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
+.small {
+  font-size: clamp(1rem, 2.5vw, 2rem);
 }
 
 .info {
@@ -121,8 +118,8 @@ canvas#bg {
 
 #saved-space-box {
   display: flex; 
-  background: #673AB7;
-  background: linear-gradient(90deg, rgba(103, 58, 183, 1) 0%, rgba(255, 170, 0, 1) 100%);
+  background: var(--primary-color);
+  background: linear-gradient(90deg, var(--primary-color) 0%, rgba(255, 170, 0, 1) 100%);
   border-radius: 50px;
   height: 30vh;
   justify-content: center;
@@ -180,7 +177,7 @@ canvas#bg {
 .green {
   height: 100%;
   width: 100%;
-  background-color: #849D16;
+  background-color: var(--third-color);
 }
 
 
@@ -209,7 +206,12 @@ canvas#bg {
 }
 
 .half {
-  width: 50%;
+  width: 45%;
+}
+
+.top {
+  display: flex;
+  align-items: top;
 }
 
 #back-img {
@@ -220,26 +222,26 @@ canvas#bg {
   background-color: transparent;
   justify-content: center;
   align-items: center;
-  height: 100vw;
-  width: 100vw;
+  height: 150vw;
+  width: 150vw;
   object-fit: cover;
   overflow: hidden;
 }
 
 #back-img img {
+  max-width: 100%;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-
 .masked-bg {
   display: flex;
   position: relative;
   height: 50vh;
   inset: 0;
-  background-color: #849D16;
+  background-color: var(--third-color);
   -webkit-mask-image:
     url('/assets/cloud.png');
   -webkit-mask-size: 200%;
@@ -268,7 +270,7 @@ canvas#bg {
 }
 
 @media(max-width: 768px){
-  .logo {
+  .small-remove {
     display: none; 
   }
 
@@ -278,11 +280,5 @@ canvas#bg {
 
   .masked-bg {
     -webkit-mask-position: center 15%;
-  }
-
-  #delete-info {
-    justify-content: center;
-    left: 0;
-    width: 100%;
   }
 }

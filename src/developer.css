@@ -1,0 +1,49 @@
+.dev-main {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: space-between;
+  background-color: var(--main-color);
+  border-radius: 10vw;
+  margin: 10vw;
+  margin-inline: 5vw;
+  padding: 8vw;
+  gap: 4rem;
+  flex-wrap: wrap-reverse;
+}
+
+.dev-pic {
+  position: relative;
+  background-color: blue;
+  border-radius: 100px;
+  min-width: 300px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 40%;
+}
+
+.dev-body {
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: 50%;
+  flex-direction: column;
+  position: relative;
+  gap: 2rem;
+}
+
+.dev-socials {
+  display: flex;
+  flex-grow: 1;
+  flex-basis: 100%;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.dev-social {
+  background-color: green;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}

@@ -3,7 +3,10 @@ import * as THREE from 'three';
 export class Phases {
 
   constructor(){
-    this.pageSize = window.innerHeight *0.8;
+    this.pageFactor = 0.8;
+    if(this.isMobile()) this.pageFactor = 1.0;
+
+    this.pageSize = window.innerHeight * this.pageFactor;
     this.debugView = false;
     this.pages = [];
     this.init();
@@ -11,7 +14,8 @@ export class Phases {
 
   init() {
     const pages = document.getElementsByClassName("page");
-    
+   
+    let x = 0;
     for(let i = 0; i < pages.length; i++){
       const page = pages[i];
 
@@ -23,9 +27,10 @@ export class Phases {
       this.pages.push(page.id);
       page.style.height = this.pageSize + "px";
       if(this.debugView){
-      if(i % 2 == 0) page.style.backgroundColor = "#AA0000";
+      if(x % 2 == 0) page.style.backgroundColor = "#AA0000";
       else page.style.background = "#0000AA";
       }
+      x++;
     }
 
     console.log(this.pages);
@@ -51,7 +56,7 @@ export class Phases {
   }
 
   getPhase() {
-    const scrollTop = window.scrollY;
+    const scrollTop = window.scrollY + window.innerHeight * 0.5;
     const phase = Math.floor(scrollTop / this.pageSize);
     const page = this.pages[phase];
     console.log({

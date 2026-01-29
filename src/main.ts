@@ -8,13 +8,16 @@ import { Phone } from './phone.ts';
 import { SavedSpace } from './savedSpace.ts';
 import { EXRLoader } from 'three/addons/loaders/EXRLoader.js';
 
+
+const phases = new Phases();
 const scene = new THREE.Scene();
 scene.background = null;
 
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 500);
+const canvas = document.querySelector('#bg');
 
 const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('#bg'),
+  canvas: canvas,
   antialias: true,
   alpha: true,
 });
@@ -22,14 +25,6 @@ const renderer = new THREE.WebGLRenderer({
 let delete_info;
 let saved_space;
 let app_info = document.getElementById("app-info");
-
-const width = window.innerWidth;
-const height = window.innerHeight;
-renderer.setSize(width, height);
-camera.aspect = width / height;
-camera.updateProjectionMatrix();
-renderer.setPixelRatio(window.devicePixelRatio);
-camera.position.setZ(80);
 
 /* ---------- Main async setup ---------- */
 async function init() {
@@ -44,18 +39,34 @@ async function init() {
 
   // Lights
   const keyLight = new THREE.DirectionalLight(0xffffff, 1);
-  keyLight.position.set(-10, 2, 30);
+  keyLight.position.set(-10, 10, 30);
   scene.add(keyLight);
 
   const rimLight = new THREE.DirectionalLight(0xffffff, 1);
   rimLight.position.set(-10, 5, -10);
   scene.add(rimLight);
 
+  let width = window.innerWidth; 
+  let height =  window.innerHeight;
+
+  if(phases.isMobile()){
+
+    const par = document.getElementById("bg-par");
+    const bouds = par.getBoundingClientRect();
+    width = bouds.width;
+    height = bouds.height;
+  }
+
+  const pixelRatio = window.devicePixelRatio; 
+  renderer.setSize(width, height);
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+  renderer.setPixelRatio(pixelRatio);
+  camera.position.setZ(80);
 }
 
 async function main() {
 
-  const phases = new Phases();
   await init();
 
   let phone = new Phone(phases.isMobile());
@@ -66,7 +77,7 @@ async function main() {
 
   function animate() {
     requestAnimationFrame(animate);
-    // phone.animate();
+    phone.animate();
     saved_space.animate();
     renderer.render(scene, camera);
   }

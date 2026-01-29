@@ -8,22 +8,32 @@ export class Phone {
     this.initYRot = -0.6;
     this.initZRot = -0.1;
     this.initXPos = 22;
+    this.initYPos = -22;
+    this.rotLimits = {"l" : 0.1, "r": -0.5};
+    this.radV = 0.001;
     if(mobileView){
       this.initYRot = 0;
       this.initZRot = 0;
       this.initXPos = 0;
+      this.initYPos = -22;
+      this.initScale = 0.45;
+      this.rotLimits = {"l": 0.25, "r": -0.25};
+      this.radV = 0.0005;
     } 
-    this.initYPos = -22;
     this.leaveInitXPos = -1 * this.initXPos;
-    this.radV = 0.001;
     this.dir = 1;
     this.anim = true;
     this.modelRotationWhenMoved = 0;
     this.texturesPaths = [];
-    const frames = 60;
-    for(let i = 1; i <= 60; i++){
+    this.frames = 255;
+    for(let i = 1; i <= this.frames; i++){
       this.texturesPaths.push(this.getFramePath(i));
     }
+    this.corrFrame = 0;
+    this.updateFrame = 0.1;
+    this.scrolling = true;
+    this.mobileView = mobileView;
+    console.log("mobileView: " + mobileView);
   }
 
   async init() {
@@ -73,7 +83,7 @@ export class Phone {
     return material;
   }
 
-  async generateScreenMaterial(i){
+  generateScreenMaterial(i){
     const tex = this.screenTextures[i];
     if (!tex) return;
 
@@ -88,11 +98,15 @@ export class Phone {
 
   animate() {
     if(this.anim) {
-      if(this.model.rotation.y > 0.4) this.dir = -1;
-      else if(this.model.rotation.y < -0.4) this.dir = +1;
+      if(this.model.rotation.y > this.rotLimits["l"]) this.dir = -1;
+      else if(this.model.rotation.y < this.rotLimits["r"]) this.dir = +1;
 
       this.model.rotation.y += this.radV * this.dir;
-
+    }
+    if(this.scrolling) {
+      const frame = Math.ceil(this.corrFrame) % this.frames;
+      this.generateScreenMaterial(this.getFramePath(frame));
+      this.corrFrame += this.updateFrame
     }
   }
 
@@ -120,7 +134,7 @@ export class Phone {
   }
 
   getFramePath(frame:int){
-    return "/assets/frames/ezgif-frame-0" + frame.toString().padStart(2, '0') + ".jpg";
+    return "/assets/frames/ezgif-frame-" + frame.toString().padStart(3, '0') + ".jpg";
   }
 
   async scroll(t){
@@ -135,15 +149,18 @@ export class Phone {
     if(!this.modelRotationWhenMoved) this.modelRotationWhenMoved = this.model.rotation.y;
     switch (phase) {
       case "main":
-        await this.generateScreenMaterial(this.getFramePath(1));
-        this.moveToMiddle(time); 
+        this.anim = true;
+        if(!this.mobileView) this.scrolling = true;
+        // await this.generateScreenMaterial(this.getFramePath(1));
       break;
 
       case "scroll":
-        this.scroll(time);
-      break
+        if(this.mobileView) this.scroll(time);
+        this.moveToMiddle(time);
+      break;
 
       case "move-left":
+        this.scrolling = false;
         this.moveToLeft(time);
       break;
 
