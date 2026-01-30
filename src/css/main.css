@@ -10,13 +10,6 @@
   flex-basis: 50%;
 }
 
-.download-box p {
-  font-size: 18px;
-  line-height: 1.6;
-  max-width: 600px;
-}
-
-/* STORE BUTTONS */
 .store-buttons {
   display: flex;
   flex-shrink: 1;

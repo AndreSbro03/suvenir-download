@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export class Phone {
-  constructor(mobileView:bool) {
+  constructor(phases:Phases, mobileView:bool) {
+    this.phases = phases;
     this.path = "../assets/iphone_12_pro.glb";
     this.initScale = 0.45;
     this.initYRot = -0.6;
@@ -50,6 +51,10 @@ export class Phone {
     this.generateScreenMaterial(this.getFramePath(1));
   }
 
+  getFramePath(frame:int){
+    return "/assets/frames/ezgif-frame-" + frame.toString().padStart(3, '0') + ".jpg";
+  }
+  
   async preloadScreens(paths) {
     const loader = new THREE.TextureLoader();
     await Promise.all(
@@ -110,69 +115,79 @@ export class Phone {
     }
   }
 
+  /*
   moveToMiddle(t) {
     this.model.position.x = THREE.MathUtils.lerp(this.initXPos, 0, t);
     this.model.rotation.z = THREE.MathUtils.lerp(this.initZRot, 0, t);
     this.model.rotation.y = THREE.MathUtils.lerp(this.modelRotationWhenMoved, 0, t);
   }
 
+  async scroll(t){
+    const frame = Math.ceil(THREE.MathUtils.lerp(1, this.frames, t * 0.5));
+    await this.generateScreenMaterial(this.getFramePath(frame));
+  }
+  */
+
   moveToLeft(t) {
+    /** Prev changes **/
+
+    /** New changes **/
     this.model.position.x = THREE.MathUtils.lerp(this.initXPos, this.initXPos * -1, t);
     this.model.rotation.y = THREE.MathUtils.lerp(this.initYRot, this.initYRot * -1, t);
   }
 
   zoom(t) {
-    const scale = THREE.MathUtils.lerp(this.initScale, 1, t);
+    /** Prev changes **/
+    this.moveToLeft(1);
+      
+    /** New changes **/
     this.model.rotation.z = THREE.MathUtils.lerp(0, 0.6, t);
+    const scale = THREE.MathUtils.lerp(this.initScale, 1, t);
     this.model.scale.set(scale, scale, scale);
   }
 
   moveOut(t) {
+    /** Prev changes **/
+    this.zoom(1); 
+
+    /** New changes **/
     this.model.position.x = this.leaveInitXPos + THREE.MathUtils.lerp(0, -50, t);
     const scale = THREE.MathUtils.lerp(1, this.initScale, t);
     this.model.scale.set(scale, scale, scale);
   }
 
-  getFramePath(frame:int){
-    return "/assets/frames/ezgif-frame-" + frame.toString().padStart(3, '0') + ".jpg";
-  }
-
-  async scroll(t){
-    const frame = Math.ceil(THREE.MathUtils.lerp(1, this.frames, t * 0.5));
-    await this.generateScreenMaterial(this.getFramePath(frame));
-
-  }
+ 
 
   async move(phase, time) {
     this.anim = false;
+    let _time = time;
     if(!this.modelRotationWhenMoved) this.modelRotationWhenMoved = this.model.rotation.y;
     switch (phase) {
-      case "main":
-        // this.anim = true;
-        // if(!this.mobileView) this.scrolling = true;
-        // await this.generateScreenMaterial(this.getFramePath(1));
+      case "phone-out":
+        this.moveOut(_time);
       break;
 
-      case "scroll":
-        if(this.mobileView) this.scroll(time);
-        this.moveToMiddle(time);
+      case "zoom":
+        this.zoom(_time);
+        this.leaveInitXPos = this.model.position.x;
       break;
 
       case "move-left":
         // this.scrolling = false;
-        this.moveToLeft(time);
+        this.moveToLeft(_time);
       break;
 
-      case "zoom":
-        this.zoom(time);
-      this.leaveInitXPos = this.model.position.x;
-      break; 
-
-      case "phone-out":
-        this.moveOut(time);
-      break;
+      case "main":
+        // this.anim = true;
+        // if(!this.mobileView) this.scrolling = true;
+        // await this.generateScreenMaterial(this.getFramePath(1));
+        break;
 
       default:
+        if(phase == "") return;
+        const prev = this.phases.getClosestTransitionPage(phase);
+        console.log("Didn't found " + phase + " executing " + prev);
+        this.move(prev, 1);
         break;
     }
 

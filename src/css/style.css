@@ -6,9 +6,17 @@
   --secodary-color: oklch(0.8 0.17 73);
   --third-color: oklch(0.65  0.15 120);
 
-  --h-pad: clamp(2rem, 8vw, 5rem);
-  --v-pad: clamp(1rem, 8vh, 4rem);
+  --h-pad: 5rem; 
+  --v-pad: 2.5rem;
 }
+
+@media(max-width: 768px) {
+  :root {
+ --h-pad: 3rem; 
+  --v-pad: 1.5rem;
+
+  }
+ }
 
 @font-face {
   font-family: 'songbird';

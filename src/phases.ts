@@ -45,12 +45,14 @@ export class Phases {
       descr[i].innerHTML = "Dive into your gallery to relive moments, organize your memories, and delete the photos and videos that no longer serve you.\
         Suvenir is fast, secure and easy to use.";
     }
-
+  
+    /*
     const cloud = document.getElementById("cloud");
     const di = document.getElementById("delete-info");
     const pos = window.scrollY + di.getBoundingClientRect().top + (di.getBoundingClientRect().height - cloud.getBoundingClientRect().height) * 0.5; 
     cloud.style.top = pos + "px";
     console.log(cloud, pos);
+    */
     
   }
 
@@ -66,6 +68,20 @@ export class Phases {
       }
     }
     return {};
+  }
+ 
+  getClosestTransitionPage(pageId:String) : String {
+    let prev = "";
+    for(let i = 0; i < this.pages.length; i++){
+      const corr_page = this.pages[i]; 
+      if(corr_page.classList.contains("transition")){
+        prev = corr_page.id;
+      }
+      if(corr_page.id === pageId){
+        break;
+      }
+    }
+    return prev;
   }
 
   isMobile() {

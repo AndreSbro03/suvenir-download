@@ -4,10 +4,9 @@
   justify-content: center;
   align-items: space-between;
   background-color: var(--main-color);
-  border-radius: 10vw;
-  margin: 10vw;
-  margin-inline: 5vw;
-  padding: 8vw;
+  border-radius: 5rem; 
+  margin: 20rem 0rem;
+  padding: 5rem var(--h-pad);
   gap: 4rem;
   flex-wrap: wrap-reverse;
 }
@@ -15,7 +14,7 @@
 .dev-pic {
   position: relative;
   background-color: blue;
-  border-radius: 100px;
+  border-radius: 4rem;
   min-width: 300px;
   flex-grow: 0;
   flex-shrink: 0;

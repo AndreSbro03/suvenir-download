@@ -69,7 +69,7 @@ async function main() {
 
   await init();
 
-  let phone = new Phone(phases.isMobile());
+  let phone = new Phone(phases, phases.isMobile());
   await phone.init();
   phone.addToScene(scene);
 
