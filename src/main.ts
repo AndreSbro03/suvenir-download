@@ -10,6 +10,7 @@ import { EXRLoader } from 'three/addons/loaders/EXRLoader.js';
 
 
 const phases = new Phases();
+const phone = new Phone(phases);
 const scene = new THREE.Scene();
 scene.background = null;
 
@@ -45,12 +46,14 @@ async function init() {
   const rimLight = new THREE.DirectionalLight(0xffffff, 1);
   rimLight.position.set(-10, 5, -10);
   scene.add(rimLight);
+  resize();
+ }
 
+function resize() {
   let width = window.innerWidth; 
   let height =  window.innerHeight;
 
   if(phases.isMobile()){
-
     const par = document.getElementById("bg-par");
     const bouds = par.getBoundingClientRect();
     width = bouds.width;
@@ -63,13 +66,12 @@ async function init() {
   camera.updateProjectionMatrix();
   renderer.setPixelRatio(pixelRatio);
   camera.position.setZ(80);
+
 }
 
 async function main() {
 
   await init();
-
-  let phone = new Phone(phases, phases.isMobile());
   await phone.init();
   phone.addToScene(scene);
 
@@ -102,7 +104,16 @@ async function main() {
     }
   }
 
+  function resizePage() {
+    console.log("resizing");
+    phases.init();
+    resize();
+    phone.resize();
+    
+  }
+
   document.body.onscroll = move;
+  document.body.onresize = resizePage;
   move();
   animate();
 }

@@ -12,11 +12,10 @@
 
 @media(max-width: 768px) {
   :root {
- --h-pad: 3rem; 
-  --v-pad: 1.5rem;
-
+    --h-pad: 3rem; 
+    --v-pad: 1.5rem;
   }
- }
+}
 
 @font-face {
   font-family: 'songbird';
@@ -145,8 +144,8 @@ p {
   opacity: 0;
   transform: translateY(20px);
   transition:
-    opacity 0.8s ease-out,
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); 
+  opacity 0.8s ease-out,
+  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); 
 }
 
 .fade-up.show {
@@ -228,7 +227,7 @@ p {
   inset: 0;
   background-color: var(--third-color);
   -webkit-mask-image:
-    url('/assets/cloud.png');
+  url('/assets/cloud.png');
   -webkit-mask-size: 200%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center 30%;
@@ -258,7 +257,7 @@ p {
   display: none;
 }
 
-@media(max-width: 768px){
+@media(max-width: 1025px){
   .small-remove {
     display: none; 
   }

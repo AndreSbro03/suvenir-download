@@ -9,6 +9,7 @@ export class Phases {
   }
 
   init() {
+    this.pages = [];
     const pages = document.getElementsByClassName("page");
    
     let x = 0;
@@ -20,6 +21,7 @@ export class Phases {
         continue;
       }
 
+      page.style.display = "flex";
       this.pages.push(page);
       if(this.debugView){
       if(x % 2 == 0) page.style.backgroundColor = "#AA0000";
@@ -34,10 +36,14 @@ export class Phases {
     //}
 
     /* If the device is in mobile view change the canvas from background to static */
+    const back = document.getElementById("bg");
     if(this.isMobile()) {
-      const back = document.getElementById("bg");
       back.style.zIndex = "auto";
       back.style.position = "relative";
+    }
+    else {
+      back.style.zIndex = "-1";
+      back.style.position = "fixed";
     }
 
     const descr = document.getElementsByClassName("app-description");
@@ -85,7 +91,8 @@ export class Phases {
   }
 
   isMobile() {
-    return window.innerWidth < 768;
+    // return window.innerWidth < 768;
+    return window.innerWidth < 1025;
   }   
 
 }

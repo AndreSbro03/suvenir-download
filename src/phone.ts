@@ -2,29 +2,11 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export class Phone {
-  constructor(phases:Phases, mobileView:bool) {
+  constructor(phases:Phases) {
     this.phases = phases;
     this.path = "../assets/iphone_12_pro.glb";
-    this.initScale = 0.45;
-    this.initYRot = -0.6;
-    this.initZRot = 0;
-    this.initXPos = 25;
-    this.initYPos = -22;
-    this.rotLimits = {"l" : 0.1, "r": -0.5};
-    this.radV = 0.001;
-    if(mobileView){
-      this.initYRot = 0;
-      this.initZRot = 0;
-      this.initXPos = 0;
-      this.initYPos = -22;
-      this.initScale = 0.45;
-      this.rotLimits = {"l": 0.25, "r": -0.25};
-      this.radV = 0.0005;
-    } 
-    this.leaveInitXPos = -1 * this.initXPos;
     this.dir = 1;
     this.anim = false;
-    this.modelRotationWhenMoved = 0;
     this.texturesPaths = [];
     this.frames = 255;
     for(let i = 1; i <= this.frames; i++){
@@ -33,22 +15,41 @@ export class Phone {
     this.corrFrame = 0;
     this.updateFrame = 0.1;
     this.scrolling = true;
-    this.mobileView = mobileView;
-    console.log("mobileView: " + mobileView);
   }
 
   async init() {
     const loader = new GLTFLoader();
     const glb = await loader.loadAsync(this.path);
-    const scale = this.initScale;
     this.model = glb.scene;
-    this.model.scale.set(scale, scale, scale);
-    this.model.position.set(this.initXPos, this.initYPos, 0);
-    this.model.rotation.set(0, this.initYRot, this.initZRot);
     this.screenMat = this.findScreenMat();
     this.screenTextures = {};
     await this.preloadScreens(this.texturesPaths);
     this.generateScreenMaterial(this.getFramePath(1));
+    this.resize();
+  }
+
+  resize() {
+    this.leaveInitXPos = -1 * this.initXPos;
+    this.initScale = 0.45;
+    this.initYRot = -0.6;
+    this.initZRot = 0;
+    this.initXPos = 25;
+    this.initYPos = -22;
+    this.rotLimits = {"l" : 0.1, "r": -0.5};
+    this.radV = 0.001;
+    if(this.phases.isMobile()){
+      this.initYRot = 0;
+      this.initZRot = 0;
+      this.initXPos = 0;
+      this.initYPos = -22;
+      this.initScale = 0.45;
+      this.rotLimits = {"l": 0.25, "r": -0.25};
+      this.radV = 0.0005;
+    } 
+    const scale = this.initScale;
+    this.model.scale.set(scale, scale, scale);
+    this.model.position.set(this.initXPos, this.initYPos, 0);
+    this.model.rotation.set(0, this.initYRot, this.initZRot);
   }
 
   getFramePath(frame:int){
@@ -161,7 +162,6 @@ export class Phone {
   async move(phase, time) {
     this.anim = false;
     let _time = time;
-    if(!this.modelRotationWhenMoved) this.modelRotationWhenMoved = this.model.rotation.y;
     switch (phase) {
       case "phone-out":
         this.moveOut(_time);
