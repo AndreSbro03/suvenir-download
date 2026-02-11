@@ -8,6 +8,7 @@ export class SavedSpace {
   startAnimation: boolean;
   counter: number;
   phases: Phases;
+  startTime: number | null = null;
 
   stopCounter: number = 2.3 * 1_000_000_000;
   easing: number = 0.01;
@@ -64,6 +65,7 @@ animate(timestamp?: number) {
 
   move(phase:String, _time:number){
     if(phase === "saved-space") {
+      requestAnimationFrame(this.animate.bind(this));
       this.startAnimation = true;
     }
   }
