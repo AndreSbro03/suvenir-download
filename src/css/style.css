@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: 'songbird';
-  src: url('../assets/fonts/TANSONGBIRD.ttf');
+  src: url('/assets/fonts/TANSONGBIRD.ttf');
 }
 
 /* RESET BASE */

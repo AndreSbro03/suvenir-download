@@ -10,7 +10,7 @@ export class Phone {
   corrFrame: number;
   updateFrame: number;
   scrolling: boolean;
-  path: string = "../assets/iphone_12_pro.glb";
+  path: string = import.meta.env.BASE_URL + "assets/iphone_12_pro.glb";
   frames: number = 255;
   leaveInitXPos: number = 0;
   initScale: number = 0;
@@ -78,7 +78,7 @@ export class Phone {
   }
 
   getFramePath(frame:number){
-    return "/assets/frames/ezgif-frame-" + frame.toString().padStart(3, '0') + ".jpg";
+    return import.meta.env.BASE_URL + "assets/frames/ezgif-frame-" + frame.toString().padStart(3, '0') + ".jpg";
   }
 
   async preloadScreens(paths: string[]): Promise<void> {

@@ -4,8 +4,8 @@ import { Phases } from '/src/phases.ts';
 
 import * as THREE from 'three';
 
-import { Phone } from './phone.ts';
-import { SavedSpace } from './savedSpace.ts';
+import { Phone } from '/src/phone.ts';
+import { SavedSpace } from '/src/savedSpace.ts';
 import { EXRLoader } from 'three/addons/loaders/EXRLoader.js';
 
 
@@ -33,7 +33,7 @@ const app_info = document.querySelector("#app-info") as HTMLElement;
 async function init() {
   // Load EXR environment
   const exl = new EXRLoader();
-  exl.load("../assets/brown_photostudio_02_4k.exr", (texture) => {
+  exl.load(import.meta.env.BASE_URL + "assets/brown_photostudio_02_4k.exr", (texture) => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
     texture.colorSpace = THREE.LinearSRGBColorSpace;
     scene.environmentIntensity = 0.3;
@@ -49,7 +49,7 @@ async function init() {
   rimLight.position.set(-10, 5, -10);
   scene.add(rimLight);
   resize();
- }
+}
 
 function resize() {
   let width = window.innerWidth; 
@@ -75,7 +75,13 @@ function resize() {
 async function main() {
 
   await init();
-  await phone.init();
+
+  try {
+    await phone.init();
+  } catch (e) {
+    console.error("INIT FAILED:", e);
+  }
+
   phone.addToScene(scene); 
 
   if (!delete_info || !app_info) {
@@ -117,7 +123,7 @@ async function main() {
     phases.init();
     resize();
     phone.resize();
-    
+
   }
 
   document.body.onscroll = move;
