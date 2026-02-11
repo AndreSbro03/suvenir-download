@@ -103,7 +103,7 @@ async function main() {
     const {page, t} = phases.getPhase();
     if(!page || !t) return;
 
-    console.log(page, t);
+    // console.log(page, t);
     phone.move(page, t);
     saved_space.move(page, t);
 
