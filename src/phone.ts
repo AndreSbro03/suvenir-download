@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { Phases } from '/src/phases.ts';
+import { Phases } from './phases.ts';
 
 export class Phone {
 

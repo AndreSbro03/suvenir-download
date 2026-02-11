@@ -1,4 +1,4 @@
-import { Phases } from '/src/phases.ts';
+import { Phases } from './phases.ts';
 
 export class SavedSpace {
   container: HTMLElement | null;
