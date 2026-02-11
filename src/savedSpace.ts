@@ -29,25 +29,38 @@ export class SavedSpace {
     return (value / 1000000000).toFixed(1) + " GB";
   }
 
-  animate(){
-    if(this.obj && this.startAnimation){
-      // 1. Calcolo dell'interpolazione (Easing)
-      // La distanza tra il valore attuale e il target si riduce gradualmente
-      let dist = this.stopCounter - this.counter;
+animate(timestamp?: number) {
+  if (!this.startAnimation || !this.obj) return;
 
-      if (dist > 0.1) { 
-        this.counter += dist * this.easing;
-      } else {
-        this.counter = this.stopCounter; // Forza il valore finale preciso
-      }
+  // If timestamp is not provided, use performance.now()
+  if (timestamp === undefined) timestamp = performance.now();
 
-      // 2. Formattazione e "Throttling" visivo
-      // Usiamo Math.floor per evitare decimali che ballano e creano sfocatura
-      const displayValue = Math.floor(this.counter);
-      if(this.containerText) this.containerText.innerHTML = this.prettyString(displayValue); 
-      if(this.text) this.text.classList.add("show");
-    }
+  if (!this.startTime) this.startTime = timestamp;
+
+  const elapsed = timestamp - this.startTime;
+  const duration = 3000; // 3 seconds animation
+  let progress = Math.min(elapsed / duration, 1);
+
+  // Ease-out quadratic
+  progress = 1 - (1 - progress) ** 2;
+
+  // Current counter value
+  this.counter = this.stopCounter * progress;
+
+  // Update DOM
+  const displayValue = Math.floor(this.counter);
+  if (this.containerText && this.containerText.innerHTML !== this.prettyString(displayValue)) {
+    this.containerText.innerHTML = this.prettyString(displayValue);
   }
+  if (this.text) this.text.classList.add("show");
+
+  // Continue animation
+  if (progress < 1) {
+    requestAnimationFrame(this.animate.bind(this));
+  } else {
+    this.counter = this.stopCounter;
+  }
+}
 
   move(phase:String, _time:number){
     if(phase === "saved-space") {
