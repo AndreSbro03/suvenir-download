@@ -2,9 +2,10 @@ import * as THREE from 'three';
 
 export class Phases {
 
+  debugView: boolean = false;
+  pages: HTMLElement[] = [];
+
   constructor(){
-    this.debugView = false;
-    this.pages = [];
     this.init();
   }
 
@@ -15,6 +16,7 @@ export class Phases {
     let x = 0;
     for(let i = 0; i < pages.length; i++){
       const page = pages[i];
+      if (!(page instanceof HTMLElement)) continue;
 
       if(this.isMobile() && page.classList.contains("transition")) {
         page.style.display = "none";
@@ -37,6 +39,7 @@ export class Phases {
 
     /* If the device is in mobile view change the canvas from background to static */
     const back = document.getElementById("bg");
+    if(!back) throw new Error('Background not found');
     if(this.isMobile()) {
       back.style.zIndex = "auto";
       back.style.position = "relative";
@@ -76,7 +79,7 @@ export class Phases {
     return {};
   }
  
-  getClosestTransitionPage(pageId:String) : String {
+  getClosestTransitionPage(pageId:string) : string {
     let prev = "";
     for(let i = 0; i < this.pages.length; i++){
       const corr_page = this.pages[i]; 

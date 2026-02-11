@@ -15,7 +15,9 @@ const scene = new THREE.Scene();
 scene.background = null;
 
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 500);
-const canvas = document.querySelector('#bg');
+const canvas = document.querySelector('#bg') as HTMLElement;
+if(!canvas) throw new Error("Canvas not found");
+
 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
@@ -23,9 +25,9 @@ const renderer = new THREE.WebGLRenderer({
   alpha: true,
 });
 
-let delete_info;
-let saved_space;
-let app_info = document.getElementById("app-info");
+const delete_info = document.querySelector("#delete-info") as HTMLElement;
+const app_info = document.querySelector("#app-info") as HTMLElement;
+
 
 /* ---------- Main async setup ---------- */
 async function init() {
@@ -54,7 +56,8 @@ function resize() {
   let height =  window.innerHeight;
 
   if(phases.isMobile()){
-    const par = document.getElementById("bg-par");
+    const par = document.getElementById("bg-par") as HTMLElement;
+    if(!par) throw new Error("No par for bg found");
     const bouds = par.getBoundingClientRect();
     width = bouds.width;
     height = bouds.height;
@@ -73,7 +76,11 @@ async function main() {
 
   await init();
   await phone.init();
-  phone.addToScene(scene);
+  phone.addToScene(scene); 
+
+  if (!delete_info || !app_info) {
+    throw new Error("Required elements missing");
+  }
 
   let saved_space = new SavedSpace(phases);
 
@@ -87,13 +94,14 @@ async function main() {
   // Scroll interaction
   function move() {
     const {page, t} = phases.getPhase();
+    if(!page || !t) return;
+
     console.log(page, t);
     phone.move(page, t);
     saved_space.move(page, t);
 
 
-    if(page === "delete-info" && !delete_info) {
-      delete_info = document.querySelector("#delete-info");
+    if(page === "delete-info") {
       delete_info.style.display = "flex";
       delete_info.classList.add("show");
     }
