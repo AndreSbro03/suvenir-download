@@ -4,18 +4,21 @@
   align-items: center;
   flex-wrap: wrap;
   max-width: 100%;
-  padding: 2rem 5rem;
+  padding: 4rem 5rem;
   gap: 2rem;
 }
 
 @media(max-width: 768px) {
   .page {
-    padding: 1.5rem 2rem;
+    padding: 2rem 2rem;
+
   }
 }
 
+
 .transition {
   height: 80vh;
+  min-height: 80vh;
 }
 
 .phone-space {
@@ -38,4 +41,15 @@ canvas#bg {
 
 #saved-space {
   flex-wrap: wrap-reverse;
+}
+
+.page-img {
+  width: 90vw;
+  height: 90vw;
+}
+
+#delete-info,
+#saved-space
+{
+  margin: 4rem 0rem;
 }

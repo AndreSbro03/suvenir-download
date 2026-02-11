@@ -184,9 +184,9 @@ export class Phone {
         break;
 
       default:
-        if(phase == "") return;
+        if(phase || phase === "") return;
         const prev = this.phases.getClosestTransitionPage(phase);
-        console.log("Didn't found " + phase + " executing " + prev);
+        // console.log("Didn't found " + phase + " executing " + prev);
         this.move(prev, 1);
         break;
     }

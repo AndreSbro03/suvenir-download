@@ -13,16 +13,15 @@
   <body>
 
     <div class="app-bar">
-      <h2 class="title">Suvenir</h1>
+      <h1 class="title">Suvenir</h1>
     </div>
 
     <!-- MAIN CONTENT -->
     <div class="page" id="main" style="align-items: start;">
 
       <div class="main-box">
-        <h2 class="title">Scroll your gallery</h1>
+        <h3 class="title">Scroll your gallery</h3>
         <p class="medium-width small-remove app-description"> 
-
         </p>
         <div class="store-buttons">
           <a href="https://play.google.com/store/apps/details?id=com.suvenir">
@@ -39,9 +38,6 @@
         <canvas id="bg"></canvas>
       </div>
 
-      <div class="main-box small-show">
-        <p class="app-description"></p>
-      </div>
     </div>
 
     <div class="page transition" id="move-left"></div>
@@ -52,7 +48,7 @@
       </div>
       <div class="info-box">          
         <div class="info"> 
-          <h1 class="title">Relieve your memories!</h1>
+          <h2 class="title">Relieve your memories!</h2>
         </div>
       </div>
     </div>
@@ -62,10 +58,10 @@
     <div class="page" id="delete-info">
       <div class="phone-space small-remove">
       </div>
-      <img src="/assets/logo.png" alt="suvenir" class="logo small-show">
+      <img src="/assets/scene-screen/trash_screen.png" alt="suvenir" class="page-img small-show">
       <div class="info-box">
         <div class="info"> 
-          <h1 class="title">Delete pictures you don't need</h1>
+          <h2 class="title">Delete pictures you don't need</h2>
         </div>
       </div>
     </div>
@@ -75,33 +71,38 @@
 
     <div class="page" id="saved-space">
       <div class="info saved-space-item" id="saved-space-info">
-        <h1 class="title">And save space on your device</h1>
+        <h1 class="title">Save space on your device</h1>
       </div>
       <div class="saved-space-item" id="saved-space-box">
         <h2 id="byte-text">0 B</h2>
       </div>
     </div>
+    
+    <div class="page transition" id="end"></div>
 
     <div class="page">
-    <div class="dev-main">
-      <div class="dev-pic">
-      </div>
-      <div class="dev-body">
-        <h3 class="title"> The developer</h1>
-        <p>Hi my name is here even if this function is run in a separate isolate the function getAssetListPaged need to
-        communicate with I/O Flutter engine on the main isolate so the idea of running that funcion into
-        a subTask and then waif for all the subTask to complete was a huge bottle neck because all the
-        subTask weren't actually run immidiatly. They are all triggered by the Future.wait that, with 
-        the queue and that cause a significant lag into the app. So avoid to use subtask even if it was 
-        making the function faster because it was blocking the ui. </p>
-        <div class="dev-socials">
-          <div class="dev-social"></div>
-          <div class="dev-social"></div>
-          <div class="dev-social"></div>
-          <div class="dev-social"></div>
+      <div class="dev-main">
+        <div class="dev-pic small-remove">
+          <img src="/assets/sbro.jpg" alt="me">
+        </div>
+        <div class="dev-body">
+          <h3 class="title"> About the developer</h1>
+          <p>Hi, I’m Andrea Sbrogio, a 22-year-old Computer Engineering Master’s student at Politecnico di Milano.
+          I’m passionate about building complex software systems where performance optimization and parallel computing play a key role. I enjoy tackling technical challenges that require efficiency, scalability, and clean architecture.</p>
+          <h3 class="title">Why Suvenir?</h3>
+          <p>Suvenir started as a personal challenge to explore mobile development in depth, but after receiving strong interest and positive feedback from people who discovered the idea, I decided to turn it into a real product and publish it.
+          Suvenir represents both my passion for technology and my desire to create something useful and meaningful for others.
+          </p>
+          <!--
+            <div class="dev-socials">
+            <div class="dev-social"></div>
+            <div class="dev-social"></div>
+            <div class="dev-social"></div>
+            <div class="dev-social"></div>
+            </div>
+          -->
         </div>
       </div>
-    </div>
     </div>
 
     <div class="masked-bg"></div>
@@ -109,7 +110,7 @@
       <div class="green end-content"> 
         <img src="/assets/logo.png" alt="suvenir" class="logo small-remove">
         <div class="column">
-          <h2 class="title">Download it now for free!</h1>
+          <h3 class="title">Download it now for free!</h3>
           <div class="store-buttons">
             <a href="https://play.google.com/store/apps/details?id=com.suvenir">
               <img class="download-button" src="./assets/get_it_on_gp_en.svg" alt="Get it on Google Play">
@@ -119,7 +120,6 @@
               <img class="download-button" src="./assets/Download-on-the-App-Store/US/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" alt="Download on the App Store">
             </a>
           </div>
-
         </div>
       </div>    
     </div>

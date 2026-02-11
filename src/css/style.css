@@ -10,13 +10,6 @@
   --v-pad: 2.5rem;
 }
 
-@media(max-width: 768px) {
-  :root {
-    --h-pad: 3rem; 
-    --v-pad: 1.5rem;
-  }
-}
-
 @font-face {
   font-family: 'songbird';
   src: url('../assets/fonts/TANSONGBIRD.ttf');
@@ -69,32 +62,26 @@ body {
 
 h1 {
   letter-spacing: 0.25rem;
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-size: clamp(2.75rem, 4vw, 4rem);
 }
 
 h2 {
   letter-spacing: 0.25rem;
-  font-size: clamp(1.5rem, 3.4vw, 2.75rem);
+  font-size: clamp(2.5rem, 3.7vw, 3.75rem);
 }
 
 h3 {
   letter-spacing: 0.125rem;
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-size: clamp(2.25rem, 2vw, 2.5rem);
 }
 
 p {
-  font-size: clamp(1.5rem, 1.5vw, 2rem);
+  font-size: clamp(1.5rem, 1.5vw, 2.25rem);
 }
 
 .info {
   text-align: start;
   height: auto;
-}
-
-@media(max-width: 768px){
-  .info {
-    text-align: center;
-  }
 }
 
 .saved-space-item{
@@ -169,8 +156,8 @@ p {
 
 .logo {
   border-radius: 2rem;
-  width: 250px;
-  height:  250px;
+  width: 300px;
+  height: 300px;
   aspect-ratio: 1/1;
 }
 
@@ -178,6 +165,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .align-start {
@@ -258,6 +246,12 @@ p {
 }
 
 @media(max-width: 1025px){
+
+  :root {
+    --h-pad: 3rem; 
+    --v-pad: 1.5rem;
+  }
+
   .small-remove {
     display: none; 
   }
@@ -278,4 +272,10 @@ p {
     justify-content: center;
     align-items: center;
   }
+
+  .info,
+  .title{
+    text-align: center;
+  }
+
 }
